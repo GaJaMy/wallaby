@@ -1,0 +1,16 @@
+package com.wallaby.moamoa.domain.auth.dto.request;
+
+import com.wallaby.moamoa.common.type.SocialsType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class SignupMemberRequestDto {
+    private SocialsType socialsType;
+    private String socialsUuid;
+}

@@ -1,9 +1,11 @@
 package com.wallaby.moamoa.security.exception;
 
+import com.wallaby.moamoa.common.exception.ErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -21,11 +23,11 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         if (authException instanceof BadCredentialsException) {
             // 비밀번호 불일치
             log.debug("Unauthorized error: {}", ErrorCode.INCORRECT_AUTH_INFO.getCode());
-            ResponseMaker.makeErrorResponse(response, HttpServletResponse.SC_OK, ErrorCode.INCORRECT_AUTH_INFO);
+//            ResponseMaker.makeErrorResponse(response, HttpServletResponse.SC_OK, ErrorCode.INCORRECT_AUTH_INFO);
         } else {
             // 기타 인증 실패 (등록되지 않은 URL, 헤더 누락 등)
-            log.debug("Unauthorized error: {}", ErrorCode.INCORRECT_REQUEST_URL.getCode());
-            ResponseMaker.makeErrorResponse(response, HttpServletResponse.SC_OK, ErrorCode.INCORRECT_REQUEST_URL);
+            log.debug("Unauthorized error: {}", ErrorCode.INCORRECT_AUTH_INFO.getCode());
+//            ResponseMaker.makeErrorResponse(response, HttpServletResponse.SC_OK, ErrorCode.INCORRECT_REQUEST_URL);
         }
     }
 }

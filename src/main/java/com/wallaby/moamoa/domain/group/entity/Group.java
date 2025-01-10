@@ -1,6 +1,8 @@
 package com.wallaby.moamoa.domain.group.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wallaby.moamoa.domain.category.entity.Category;
+import com.wallaby.moamoa.domain.expense.entity.Expense;
 import com.wallaby.moamoa.domain.memberGroup.entity.MemberGroup;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,11 +21,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "groups")
+@Table(name = "group_table")
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long groupId;
+    private Long groupId;
 
     @Column(nullable = false)
     private String groupName;
@@ -39,24 +41,41 @@ public class Group {
     private String backgroundImage;
 
     @OneToMany(mappedBy = "group", orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<MemberGroup> memberGroup = new ArrayList<>();
+    @Builder.Default
+    private List<MemberGroup> memberGroups = new ArrayList<>();
+
+    @OneToMany(mappedBy = "group", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @Builder.Default
+    private List<Expense> expenses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "group", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @Builder.Default
+    private List<Category> categories = new ArrayList<>();
 
     public void addMemberGroup(MemberGroup memberGroup) {
-        if (!this.memberGroup.contains(memberGroup)) {
-            this.memberGroup.add(memberGroup);
+        if (!this.memberGroups.contains(memberGroup)) {
+            this.memberGroups.add(memberGroup);
             if (memberGroup != null && memberGroup.getGroup() != this) {
                 memberGroup.setGroup(this);
             }
         }
     }
 
-    @CreatedDate
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime create_at;
+    public void addExpense(Expense expense) {
+        if (!this.expenses.contains(expense)) {
+            this.expenses.add(expense);
+            if (expense != null && expense.getGroup() != this) {
+                expense.setGroup(this);
+            }
+        }
+    }
 
-    @LastModifiedDate
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime update_at;
+    public void addCategory(Category category) {
+        if (!this.categories.contains(category)) {
+            this.categories.add(category);
+            if (category != null && category.getGroup() != this) {
+                category.setGroup(this);
+            }
+        }
+    }
 }

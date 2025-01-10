@@ -32,4 +32,10 @@ public class MemberService {
         return memberRepository.findByPlatformUuid(uuid)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_MATCHED_PASSWORD));
     }
+
+
+    public Member getMemberByNickName(String nickName) {
+        return memberRepository.findByNickName(nickName)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_MATCHED_PASSWORD));
+    }
 }

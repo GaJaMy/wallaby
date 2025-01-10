@@ -1,5 +1,8 @@
 package com.wallaby.moamoa.security.exception;
 
+import com.wallaby.moamoa.common.dto.response.EmptyData;
+import com.wallaby.moamoa.common.exception.ErrorCode;
+import com.wallaby.moamoa.common.util.response.ResponseMaker;
 import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +19,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.debug("UnAuthorize error: {}", ErrorCode.ACCESS_DENIED.getLogMsg());
-        ResponseMaker.makeErrorResponse(response, HttpServletResponse.SC_OK, ErrorCode.ACCESS_DENIED);
+//        ResponseMaker.makeErrorResponse(response, HttpServletResponse.SC_OK, ErrorCode.ACCESS_DENIED);
+        ResponseMaker.buildResponse(ErrorCode.ACCESS_DENIED, EmptyData.builder().build());
     }
 }

@@ -47,7 +47,7 @@ public class MemberGroup {
     public void setGroup(Group group) {
         if (this.group != group) {
             this.group = group;
-            if (group != null && !group.getMemberGroup().contains(this)) {
+            if (group != null && !group.getMemberGroups().contains(this)) {
                 group.addMemberGroup(this);
             }
         }

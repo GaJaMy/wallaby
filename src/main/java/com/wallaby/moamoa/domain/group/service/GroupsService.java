@@ -68,4 +68,22 @@ public class GroupsService {
                 .currency(registerGroupsRequestDto.getCurrencyType())
                 .build();
     }
+
+    public Group getGroup(Long groupId) {
+        return groupsRepository.findById(groupId).orElseThrow(() -> new CustomException(ErrorCode.SUCCESS));
+    }
+
+    public boolean validateGroupsNickName(String nickName, Group group) {
+        for (MemberGroup memberGroup : group.getMemberGroups()) {
+            if (memberGroup.getGroupNickName().equals(nickName)) {
+                return true;
+            } else {
+                if (memberGroup.getMember().getNickName().equals(nickName)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
